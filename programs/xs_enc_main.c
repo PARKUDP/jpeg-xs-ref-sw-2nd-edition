@@ -63,6 +63,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+double get_elapsed_time_sec(struct timespec start, struct timespec end) {
+    return (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+}
 
 int main(int argc, char **argv)
 {
@@ -177,12 +182,34 @@ int main(int argc, char **argv)
 				ret = -1;
 				break;
 			}
+			struct timespec start_time, end_time;
+			clock_gettime(CLOCK_MONOTONIC, &start_time);
 			if (!xs_enc_image(ctx, &image, (uint8_t*)bitstream_buf, bitstream_buf_max_size, &bitstream_buf_size))
 			{
 				fprintf(stderr, "Unable to encode image %s\n", input_fn);
 				ret = -1;
 				break;
 			}
+			clock_gettime(CLOCK_MONOTONIC, &end_time);
+			double elapsed_sec = get_elapsed_time_sec(start_time, end_time);
+			fprintf(stderr, "⏱️ Encoding time for %s: %.6f seconds\n", input_fn, elapsed_sec);
+			// ログファイル名を出力ファイル名から生成（.jxs → .log）
+			char log_filename[1024];
+			strncpy(log_filename, output_fn, sizeof(log_filename));
+			char* ext = strrchr(log_filename, '.');
+			if (ext) {
+				strcpy(ext, ".log");
+			} else {
+				strcat(log_filename, ".log");
+			}
+
+			// ログ書き込み（input.ppm → output.jxs : 秒数）
+			FILE* log_fp = fopen(log_filename, "a");
+			if (log_fp) {
+				fprintf(log_fp, "E - %s → %s : %.6f 秒\n", input_fn, output_fn, elapsed_sec);
+				fclose(log_fp);
+			}
+
 			xs_free_image(&image);
 			if (is_sequence_path(input_seq_n) || is_sequence_path(output_seq_n))
 			{
