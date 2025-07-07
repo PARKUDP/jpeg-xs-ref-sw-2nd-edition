@@ -138,3 +138,5 @@ Note: One particular useful way to learn and understand the XS configuration syn
 本リポジトリの使用・配布は、元のライセンス条件（evaluation and testing purpose）に従っています。
 
 **本ソフトウェアの改良は学術的研究・非営利的目的に限ります。商用利用は一切想定していません。**
+
+d
