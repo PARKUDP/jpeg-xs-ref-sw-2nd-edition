@@ -1,0 +1,10 @@
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/CMakeFiles/edit_cache.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/CMakeFiles/rebuild_cache.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/libjxs/CMakeFiles/jxs.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/libjxs/CMakeFiles/edit_cache.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/libjxs/CMakeFiles/rebuild_cache.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/programs/CMakeFiles/jxs_utils.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/programs/CMakeFiles/jxs_encoder.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/programs/CMakeFiles/jxs_decoder.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/programs/CMakeFiles/edit_cache.dir
+/home/park/jpeg-xs-ref-sw-2nd-edition/_build/programs/CMakeFiles/rebuild_cache.dir
