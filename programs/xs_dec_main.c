@@ -63,6 +63,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+
+double get_elapsed_time_sec(struct timespec start, struct timespec end) {
+    return (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+}
 
 void fragment_info_csv_writer(void* ctx, const int f_id, const int f_Sbits, const int f_Ncg, const int f_padding_bits)
 {
@@ -221,11 +226,33 @@ int main(int argc, char **argv)
 
 		do
 		{
+			sequence_get_filepath(output_seq_n, output_fn, file_idx + options.sequence_first);
+
+			struct timespec start_time, end_time;
+			clock_gettime(CLOCK_MONOTONIC, &start_time);	
 			if (!xs_dec_bitstream(ctx, bitstream_buf, bitstream_buf_max_size, &image))
 			{
 				fprintf(stderr, "Error while decoding the codestream\n");
 				ret = -1;
 				break;
+			}
+			clock_gettime(CLOCK_MONOTONIC, &end_time);
+			double elapsed_sec = get_elapsed_time_sec(start_time, end_time);
+			fprintf(stderr, "⏱️ Decoding time for %s: %.6f seconds\n", input_fn, elapsed_sec);
+
+			// ログファイル名生成と書き込み
+			char log_filename[1024];
+			strncpy(log_filename, input_fn, sizeof(log_filename));
+			char* ext = strrchr(log_filename, '.');
+			if (ext) {
+				strcpy(ext, ".log");
+			} else {
+				strcat(log_filename, ".log");
+			}
+			FILE* log_fp = fopen(log_filename, "a");
+			if (log_fp) {
+				fprintf(log_fp, "D - %s → %s : %.6f 秒\n", input_fn, output_fn, elapsed_sec);
+				fclose(log_fp);
 			}
 			if (!xs_dec_postprocess_image(&xs_config, &image))
 			{
