@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/jxs_decoder.dir/xs_dec_main.c.o -o ../bin/jxs_decoder  ../bin/libjxs.a ../bin/libjxs_utils.a ../bin/libjxs.a -lm 

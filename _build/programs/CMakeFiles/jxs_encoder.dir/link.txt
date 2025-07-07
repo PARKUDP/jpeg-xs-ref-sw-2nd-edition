@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/jxs_encoder.dir/xs_enc_main.c.o -o ../bin/jxs_encoder  ../bin/libjxs.a ../bin/libjxs_utils.a ../bin/libjxs.a -lm 
