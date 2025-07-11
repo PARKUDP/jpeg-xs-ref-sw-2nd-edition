@@ -265,7 +265,6 @@ bool xs_enc_image(xs_enc_context_t* ctx, xs_image_t* image, void* codestream_buf
 	}
 
 	for (int j = 0; j < num_lines; j++) {
-	{
 		int line_idx = ctx->scramble_enabled ? line_order[j] * ctx->ids.ph : j * ctx->ids.ph;
     	int prec_y_idx = ctx->scramble_enabled ? line_order[j] : j;
 
