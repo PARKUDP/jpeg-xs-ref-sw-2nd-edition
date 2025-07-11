@@ -79,6 +79,18 @@
 #include "dwt.h"
 #include "mct.h"
 #include "nlt.h"
+#include <time.h>  // srand(), time()
+
+#define MAX_LINES 4096
+
+static void shuffle(int *arr, int n) {
+    srand(time(NULL));
+    for (int i = n - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+}
+
 
 struct xs_enc_context_t
 {
@@ -90,6 +102,7 @@ struct xs_enc_context_t
 
 	bit_packer_t* bitstream;
 	int bitstream_len;
+	bool scramble_enabled;
 
 	rate_control_t* rc[MAX_PREC_COLS];
 };
@@ -241,10 +254,21 @@ bool xs_enc_image(xs_enc_context_t* ctx, xs_image_t* image, void* codestream_buf
 	nlt_forward_transform(image, &(ctx->xs_config->p));
 	mct_forward_transform(image, &(ctx->xs_config->p));
 	dwt_forward_transform(&ctx->ids, image);
+	int num_lines = image->height / ctx->ids.ph;
+	int line_order[MAX_LINES];	
 
-	for (int line_idx = 0; line_idx < image->height; line_idx += ctx->ids.ph)
+	for (int i = 0; i < num_lines; i++) {
+    line_order[i] = i;
+	}
+	if (ctx->scramble_enabled) {
+		shuffle(line_order, num_lines);
+	}
+
+	for (int j = 0; j < num_lines; j++) {
 	{
-		const int prec_y_idx = (line_idx / ctx->ids.ph);
+		int line_idx = ctx->scramble_enabled ? line_order[j] * ctx->ids.ph : j * ctx->ids.ph;
+    	int prec_y_idx = ctx->scramble_enabled ? line_order[j] : j;
+
 		for (int column = 0; column < ctx->ids.npx; ++column)
 		{
 			precinct_set_y_idx_of(ctx->precinct[column], prec_y_idx);
