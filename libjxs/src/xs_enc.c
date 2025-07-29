@@ -83,6 +83,7 @@
 
 #define MAX_LINES 4096
 
+
 static void shuffle(int *arr, int n) {
     srand(time(NULL));
     for (int i = n - 1; i > 0; i--) {
@@ -256,17 +257,37 @@ bool xs_enc_image(xs_enc_context_t* ctx, xs_image_t* image, void* codestream_buf
 	dwt_forward_transform(&ctx->ids, image);
 	int num_lines = image->height / ctx->ids.ph;
 	int line_order[MAX_LINES];	
+	// 追加: ログファイルオープン
+	FILE* log_fp = fopen("line_order_log.txt", "w");
+	if (!log_fp) {
+		fprintf(stderr, "ログファイルを開けませんでした。\n");
+		return false;
+	}
+
 
 	for (int i = 0; i < num_lines; i++) {
-    line_order[i] = i;
+    	line_order[i] = i;
 	}
-	if (ctx->scramble_enabled) {
-		shuffle(line_order, num_lines);
+	fprintf(log_fp, "📄 line_order (before shuffle): ");
+	for (int i = 0; i < num_lines; i++) {
+		fprintf(log_fp, "%d ", line_order[i]);
 	}
+	fprintf(log_fp, "\n");
+
+
+	shuffle(line_order, num_lines);
+
+	fprintf(log_fp, "📄 line_order (after  shuffle): ");
+	for (int i = 0; i < num_lines; i++) {
+		fprintf(log_fp, "%d ", line_order[i]);
+	}
+	fprintf(log_fp, "\n");
+
+	fprintf(log_fp, "📄 num_lines: %d\n", num_lines);
 
 	for (int j = 0; j < num_lines; j++) {
-		int line_idx = ctx->scramble_enabled ? line_order[j] * ctx->ids.ph : j * ctx->ids.ph;
-    	int prec_y_idx = ctx->scramble_enabled ? line_order[j] : j;
+		int line_idx = line_order[j] * ctx->ids.ph;
+    	int prec_y_idx = line_order[j];
 
 		for (int column = 0; column < ctx->ids.npx; ++column)
 		{
