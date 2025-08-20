@@ -127,6 +127,7 @@ int main(int argc, char **argv)
 			ret = -1;
 			break;
 		}
+		fprintf(stderr, "[CFG:parsed] NLx=%d, NLy=%d (profile=%d, level=%d, sublevel=%d)\n",xs_config.p.NLx, xs_config.p.NLy, xs_config.profile, xs_config.level, xs_config.sublevel);
 
 		if (!xs_enc_preprocess_image(&xs_config, &image))
 		{
@@ -134,6 +135,7 @@ int main(int argc, char **argv)
 			ret = -1;
 			break;
 		}
+		fprintf(stderr, "[CFG:preproc] NLx=%d, NLy=%d, Sd=%d, slice_height=%u, Cw=%u\n",xs_config.p.NLx, xs_config.p.NLy, xs_config.p.Sd, xs_config.p.slice_height, xs_config.p.Cw);
 
 		ctx = xs_enc_init(&xs_config, &image);
 		if (!ctx)
@@ -143,6 +145,7 @@ int main(int argc, char **argv)
 			break;
 		}
 
+		fprintf(stderr, "[CFG:final]  NLx=%d, NLy=%d\n", xs_config.p.NLx, xs_config.p.NLy);
 		if (xs_config.bitstream_size_in_bytes == (size_t)-1)
 		{
 			// Take the RAW image size and add some extra for margin.

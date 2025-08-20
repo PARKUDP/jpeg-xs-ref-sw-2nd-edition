@@ -113,6 +113,14 @@ precinct_t* precinct_open_column(const ids_t* ids, int group_size, int column)
 
 		multi_buf_set_size(prec->sig_mag_data_mb, idx, nb_coefficients);
 		multi_buf_set_size(prec->gclis_mb, idx, N_cg);
+
+		if (column == 0) { // 初回だけでいい場合
+        printf("[Precinct] column=%d, band=%d, width=%d, N_cg=%d, nb_coefficients=%d\n",
+               column, band,
+               ids->pwb[prec->is_last_column][band],
+               N_cg, nb_coefficients);
+    	}
+
 	}
 	multi_buf_allocate(prec->gclis_mb, 1);
 	multi_buf_allocate(prec->sig_mag_data_mb, group_size);

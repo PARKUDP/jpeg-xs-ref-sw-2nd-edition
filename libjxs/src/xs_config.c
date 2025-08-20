@@ -26,7 +26,7 @@
 ** made, by implication, estoppel or otherwise.                           **
 **                                                                        **
 ** Disclaimer: Other than as expressly provided herein, (1) the Software  **
-** is provided “AS IS” WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING  **
+** is provided ï¿½AS ISï¿½ WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING  **
 ** BUT NOT LIMITED TO, THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A   **
 ** PARTICULAR PURPOSE AND NON-INFRINGMENT OF INTELLECTUAL PROPERTY RIGHTS **
 ** and (2) neither the Software Copyright Holder (or its affiliates) nor  **
@@ -34,7 +34,7 @@
 ** (including, without limitation, damages for loss of profits, business  **
 ** interruption, loss of information, or any other pecuniary loss)        **
 ** arising out of or related to the use of or inability to use the        **
-** Software.”                                                             **
+** Software.ï¿½                                                             **
 **                                                                        **
 ** RAND Copyright Licensing Commitment                                    **
 ** -----------------------------------                                    **
